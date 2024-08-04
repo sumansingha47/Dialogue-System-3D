@@ -383,7 +383,7 @@ Animator:
   m_GameObject: {fileID: 50402032}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7f087e7d2b542ac4a91ab272f154e2bb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -394,6 +394,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1679208048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50402032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85985b196e483c2418122b8d784cd789, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAnim: {fileID: 1679208042}
 --- !u!1 &1822691067
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,8 +564,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 22070941214376042, guid: 7dda8ab8678bd8f4c810a93256141bd7, type: 3}
-      insertIndex: -1
+      insertIndex: 3
       addedObject: {fileID: 1679208042}
+    - targetCorrespondingSourceObject: {fileID: 22070941214376042, guid: 7dda8ab8678bd8f4c810a93256141bd7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1679208048}
     - targetCorrespondingSourceObject: {fileID: 8315268559365781375, guid: 7dda8ab8678bd8f4c810a93256141bd7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 963194229}
