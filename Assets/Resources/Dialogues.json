@@ -1,0 +1,41 @@
+{
+  "messages": [
+    {
+      "actorId": 0,
+      "message": "Hi, i am suman singha."
+    },
+    {
+      "actorId": 1,
+      "message": "Hello, nice to meet you."
+    },
+    {
+      "actorId": 1,
+      "message": "Game is so good, you will enjoy"
+    },
+    {
+      "actorId": 0,
+      "message": "Oh, great."
+    },
+    {
+      "actorId": 1,
+      "message": "You need to pay 400rs to get this game."
+    },
+    {
+      "actorId": 0,
+      "message": "Okay!"
+    }
+  ],
+  "actors": [
+    {
+      "name": "Player",
+      "actorId": 0
+    },
+    {
+      "name": "Game Host",
+      "actorId": 1
+    }
+  ],
+  "payable": {
+    "amount": 300
+  }
+}

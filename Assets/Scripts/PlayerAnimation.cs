@@ -5,50 +5,67 @@ using UnityEngine;
 public class PlayerAnimation : MonoBehaviour
 {
     public Animator myAnim;
-    private Rigidbody rb;
 
     private bool isRunning = false;
     private bool isJumping = false;
     private bool isWalking = false;
+    private bool isWalkingBack = false;
+    private bool isRunningBack = false;
 
     private void Start()
     {
         myAnim = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody>();
+        if (myAnim == null)
+        {
+            Debug.LogError("Animator component not found!");
+        }
     }
 
     private void Update()
     {
-        // Check if the player is running
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W))
+        if (DialogueManager.isActive)
         {
-            isRunning = true;
-            isWalking = false; // If running, the player cannot be walking
-        }
-        else if (Input.GetKey(KeyCode.W)) // Check if the player is walking
-        {
-            isRunning = false;
-            isWalking = true;
-        }
-        else // The player is neither running nor walking
-        {
-            isRunning = false;
-            isWalking = false;
+            ResetAnimationStates();
+            return;
         }
 
-        // Check if the player is jumping
-        if (Input.GetKey(KeyCode.Space))
-        {
-            isJumping = true;
-        }
-        else
-        {
-            isJumping = false;
-        }
+        UpdateMovementStates();
+        UpdateAnimationStates();
+    }
 
-        // Update animator parameters
+    private void ResetAnimationStates()
+    {
+        isRunning = false;
+        isJumping = false;
+        isWalking = false;
+        isRunningBack = false;
+        isWalkingBack = false;
         myAnim.SetBool("Run", isRunning);
         myAnim.SetBool("Jump", isJumping);
         myAnim.SetBool("Walk", isWalking);
+        myAnim.SetBool("RunBack", isRunningBack);
+        myAnim.SetBool("WalkBack", isWalkingBack);
+    }
+
+    private void UpdateMovementStates()
+    {
+        bool isShiftPressed = Input.GetKey(KeyCode.LeftShift);
+        bool isWPressed = Input.GetKey(KeyCode.W);
+        bool isSPressed = Input.GetKey(KeyCode.S);
+
+        isRunning = isShiftPressed && isWPressed;
+        isWalking = !isShiftPressed && isWPressed;
+        isJumping = Input.GetKey(KeyCode.Space);
+        isRunningBack = isShiftPressed && isSPressed;
+        isWalkingBack = !isShiftPressed && isSPressed;
+    }
+
+    private void UpdateAnimationStates()
+    {
+        myAnim.SetBool("Run", isRunning);
+        myAnim.SetBool("Jump", isJumping);
+        myAnim.SetBool("Walk", isWalking);
+        myAnim.SetBool("RunBack", isRunningBack);
+        myAnim.SetBool("WalkBack", isWalkingBack);
     }
 }

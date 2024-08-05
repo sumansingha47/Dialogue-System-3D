@@ -10,7 +10,7 @@ public class MouseLook : MonoBehaviour
     public Vector2 clampInDegrees = new Vector2(360, 180);
     public bool lockCursor = true;
     [Space]
-    private Vector2 sensitivity = new Vector2(2, 2);
+    public Vector2 sensitivity = new Vector2(2, 2); // Expose to inspector
     [Space]
     public Vector2 smoothing = new Vector2(3, 3);
 
@@ -23,42 +23,60 @@ public class MouseLook : MonoBehaviour
     private Vector2 _mouseAbsolute;
     private Vector2 _smoothMouse;
 
-    private Vector2 mouseDelta;
-
     [HideInInspector]
     public bool scoped;
 
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
+
     void Start()
     {
-        instance = this;
-
         // Set target direction to the camera's initial orientation.
         targetDirection = transform.localRotation.eulerAngles;
 
-        // Set target direction for the character body to its inital state.
+        // Set target direction for the character body to its initial state.
         if (characterBody)
             targetCharacterDirection = characterBody.transform.localRotation.eulerAngles;
-        
+
         if (lockCursor)
             LockCursor();
-
     }
 
     public void LockCursor()
     {
-        // make the cursor hidden and locked
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        if (DialogueManager.isActive)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            // Make the cursor hidden and locked
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
     void Update()
     {
+        LockCursor(); // Ensure cursor lock state is checked every frame
+
         // Allow the script to clamp based on a desired target value.
         var targetOrientation = Quaternion.Euler(targetDirection);
         var targetCharacterOrientation = Quaternion.Euler(targetCharacterDirection);
 
         // Get raw mouse input for a cleaner reading on more sensitive mice.
-        mouseDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+        var mouseDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
 
         // Scale input against the sensitivity setting and multiply that against the smoothing value.
         mouseDelta = Vector2.Scale(mouseDelta, new Vector2(sensitivity.x * smoothing.x, sensitivity.y * smoothing.y));
