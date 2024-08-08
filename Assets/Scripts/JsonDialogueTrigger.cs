@@ -10,7 +10,7 @@ public class JsonDialogueTrigger : MonoBehaviour
 
     private void Start()
     {
-        TextAsset data = Resources.Load<TextAsset>("Dialogues");
+        TextAsset data = Resources.Load<TextAsset>("GameHostD1");
         dialogueData = JsonUtility.FromJson<DialogueData>(data.text);
         Debug.Log("JsonDecode: " + dialogueData.payable.amount.ToString());
 

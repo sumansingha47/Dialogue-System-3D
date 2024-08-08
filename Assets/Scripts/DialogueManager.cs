@@ -9,12 +9,29 @@ public class DialogueManager : MonoBehaviour
     public Text actorName;
     public Text messageText;
     public RectTransform backgroundBox;
-    public RectTransform nextButton;
+    public RectTransform nextDialogueHint;
 
-    Message[] currentMessages;
-    Actor[] currentActors;
-    int activeMessage = 0;
+    public Button yesButton;
+    public Button noButton;
+
+    private Message[] currentMessages;
+    private Actor[] currentActors;
+    private int activeMessage = 0;
     public static bool isActive = false;
+
+    private void Start()
+    {
+        // Ensure buttons are hidden initially
+        yesButton.gameObject.SetActive(false);
+        noButton.gameObject.SetActive(false);
+
+        // Initialize the UI elements to be invisible
+        backgroundBox.localScale = Vector3.zero;
+        nextDialogueHint.localScale = Vector3.zero;
+
+        // Register button click listeners
+        noButton.onClick.AddListener(NoButtonClicked);
+    }
 
     public void OpenDialogue(Message[] messages, Actor[] actors, Payable payable)
     {
@@ -22,22 +39,33 @@ public class DialogueManager : MonoBehaviour
         currentActors = actors;
         activeMessage = 0;
         isActive = true;
+
         Debug.Log("Start conversation! Loaded messages: " + messages.Length);
+
         DisplayMessage();
-        nextButton.LeanScale(Vector3.one, 0.5f).setEaseInOutExpo();
+
+        // Animate the appearance of the dialogue UI
+        nextDialogueHint.LeanScale(Vector3.one, 0.5f).setEaseInOutExpo();
         backgroundBox.LeanScale(Vector3.one, 0.5f).setEaseInOutExpo();
     }
 
-    void DisplayMessage()
+    private void DisplayMessage()
     {
-        Message messageToDisplay = currentMessages[activeMessage];
-        messageText.text = messageToDisplay.message;
+        if (activeMessage < currentMessages.Length)
+        {
+            Message messageToDisplay = currentMessages[activeMessage];
+            messageText.text = messageToDisplay.message;
 
-        Actor actorToDisplay = currentActors[messageToDisplay.actorId];
-        actorName.text = actorToDisplay.name;
-        actorImage.sprite = actorToDisplay.sprite;
+            Actor actorToDisplay = currentActors[messageToDisplay.actorId];
+            actorName.text = actorToDisplay.name;
+            actorImage.sprite = actorToDisplay.sprite;
 
-        AnimateTextColor();
+            AnimateTextColor();
+        }
+        else
+        {
+            Debug.LogWarning("Attempted to display a message that does not exist.");
+        }
     }
 
     public void NextMessage()
@@ -49,28 +77,53 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Conversation ended!");
-            backgroundBox.LeanScale(Vector3.zero, 0.5f).setEaseInOutExpo();
-            nextButton.LeanScale(Vector3.zero, 0.5f).setEaseInOutExpo();
-            isActive = false;
+            // Show the Yes/No buttons when the dialogue ends
+            yesButton.gameObject.SetActive(true);
+            noButton.gameObject.SetActive(true);
         }
     }
 
-    void AnimateTextColor()
+    public void NoButtonClicked()
     {
+        Debug.Log("Conversation ended!");
+
+        // Ensure the UI elements are not null before scaling
+        if (backgroundBox != null)
+        {
+            backgroundBox.LeanScale(Vector3.zero, 0.5f).setEaseInOutExpo();
+        }
+        else
+        {
+            Debug.LogError("backgroundBox is null.");
+        }
+
+        if (nextDialogueHint != null)
+        {
+            nextDialogueHint.LeanScale(Vector3.zero, 0.5f).setEaseInOutExpo();
+        }
+        else
+        {
+            Debug.LogError("nextDialogueHint is null.");
+        }
+
+        // Hide the Yes/No buttons
+        yesButton.gameObject.SetActive(false);
+        noButton.gameObject.SetActive(false);
+
+        isActive = false;
+    }
+
+    private void AnimateTextColor()
+    {
+        // Animate the text fading in
         LeanTween.textAlpha(messageText.rectTransform, 0, 0);
         LeanTween.textAlpha(messageText.rectTransform, 1, 0.5f);
     }
 
-    void Start()
+    private void Update()
     {
-        backgroundBox.transform.localScale = Vector3.zero;
-        nextButton.transform.localScale = Vector3.zero;
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F) && isActive == true)
+        // Handle advancing the conversation with the F key
+        if (Input.GetKeyDown(KeyCode.F) && isActive)
         {
             NextMessage();
         }
