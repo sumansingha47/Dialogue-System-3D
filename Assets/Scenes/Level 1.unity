@@ -969,7 +969,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 59.154907, y: -13.7499}
+  m_AnchoredPosition: {x: 59.047, y: -17.03}
   m_SizeDelta: {x: -125.30621, y: 87.4997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &789387303
@@ -1047,7 +1047,7 @@ RectTransform:
   m_Father: {fileID: 1509281727}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1220,7 +1220,7 @@ RectTransform:
   m_Father: {fileID: 1922471727}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1296,7 +1296,6 @@ RectTransform:
   - {fileID: 973820499}
   - {fileID: 1788523362}
   - {fileID: 789387302}
-  - {fileID: 1923168593}
   - {fileID: 1362968482}
   - {fileID: 2037007024}
   m_Father: {fileID: 24114710}
@@ -1356,11 +1355,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf3cb1d0195ad5e48baa62c5077d4bb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentNPCSprite: {fileID: 21300000, guid: 7d276563f4bde41c49f672085722eb76, type: 3}
+  playerSprite: {fileID: 21300000, guid: 3e813a9020fa34fd7ad547d2c1278ec8, type: 3}
   actorImage: {fileID: 973820500}
   actorName: {fileID: 1788523363}
   messageText: {fileID: 789387303}
   backgroundBox: {fileID: 1143667816}
   nextDialogueHint: {fileID: 754621259}
+  priceSlider: {fileID: 1362968483}
+  priceAmount: {fileID: 1923168594}
+  submitButton: {fileID: 2037007025}
   yesButton: {fileID: 1782475690}
   noButton: {fileID: 777238938}
 --- !u!1 &1163775732 stripped
@@ -1446,8 +1450,11 @@ MonoBehaviour:
   dialogueData:
     messages: []
     actors: []
-    payable:
-      amount: 0
+    bargaining:
+      min_price: 0
+      max_price: 0
+      attempts: 0
+      responses: []
 --- !u!65 &1163775738
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1569,7 +1576,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1362968482
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1582,15 +1589,16 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1923168593}
   - {fileID: 641899753}
   - {fileID: 1922471727}
   - {fileID: 1509281727}
   m_Father: {fileID: 1143667816}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 220.84, y: -20.9}
-  m_SizeDelta: {x: 215.4613, y: 28.427}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: -29.214, y: 42.267}
+  m_SizeDelta: {x: 215.35, y: 24.093}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1362968483
 MonoBehaviour:
@@ -2321,12 +2329,12 @@ GameObject:
   - component: {fileID: 1923168595}
   - component: {fileID: 1923168594}
   m_Layer: 5
-  m_Name: Offer text
+  m_Name: PriceAmout
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1923168593
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2334,17 +2342,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1923168592}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1143667816}
+  m_Father: {fileID: 1362968482}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 11.6, y: -7}
-  m_SizeDelta: {x: -521.9432, y: 30}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 35.144, y: 39.093}
+  m_SizeDelta: {x: 145.0614, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1923168594
 MonoBehaviour:
@@ -2373,13 +2381,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 2
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Name
+  m_Text: 000
 --- !u!222 &1923168595
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2401,12 +2409,12 @@ GameObject:
   - component: {fileID: 2037007026}
   - component: {fileID: 2037007025}
   m_Layer: 5
-  m_Name: PriceButton
+  m_Name: SubmitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2037007024
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2422,10 +2430,10 @@ RectTransform:
   - {fileID: 702303590}
   m_Father: {fileID: 1143667816}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 291.019, y: -44.14}
-  m_SizeDelta: {x: 74.88681, y: 26.72}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 41.019012, y: 16.86}
+  m_SizeDelta: {x: 74.88684, y: 26.720001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2037007025
 MonoBehaviour:

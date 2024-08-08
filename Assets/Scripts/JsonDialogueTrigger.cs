@@ -1,24 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class JsonDialogueTrigger : MonoBehaviour
 {
     public TextAsset textJson;
-
     public DialogueData dialogueData;
 
     private void Start()
     {
-        TextAsset data = Resources.Load<TextAsset>("GameHostD1");
-        dialogueData = JsonUtility.FromJson<DialogueData>(data.text);
-        Debug.Log("JsonDecode: " + dialogueData.payable.amount.ToString());
+        if (textJson != null)
+        {
+            dialogueData = JsonUtility.FromJson<DialogueData>(textJson.text);
+            Debug.Log("JSON Loaded: Min Price = " + dialogueData.bargaining.min_price);
 
+            foreach (var response in dialogueData.bargaining.responses)
+            {
+                Debug.Log("Response Range: " + response.range + ", Response: " + response.response);
+            }
+        }
+        else
+        {
+            Debug.LogError("Text JSON file is not assigned.");
+        }
     }
 
     public void StartDialogue()
     {
-        FindObjectOfType<DialogueManager>().OpenDialogue(dialogueData.messages, dialogueData.actors, dialogueData.payable);
+        FindObjectOfType<DialogueManager>().OpenDialogue(dialogueData.messages, dialogueData.actors, dialogueData.bargaining);
     }
 }
 
@@ -27,7 +37,7 @@ public class DialogueData
 {
     public Message[] messages;
     public Actor[] actors;
-    public Payable payable;
+    public Bargaining bargaining;
 }
 
 [System.Serializable]
@@ -41,11 +51,22 @@ public class Message
 public class Actor
 {
     public string name;
-    public Sprite sprite;
+    // To load sprites, you'll need a method to load them from resources
+    // public Sprite sprite;
 }
 
 [System.Serializable]
-public class Payable
+public class Bargaining
 {
-    public int amount;
+    public int min_price;
+    public int max_price;
+    public int attempts;
+    public BargainingResponse[] responses;  // Fixed the property name here
+}
+
+[System.Serializable]
+public class BargainingResponse
+{
+    public string range;
+    public string response;
 }

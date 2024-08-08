@@ -5,43 +5,58 @@ using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
+    public Sprite currentNPCSprite;
+    public Sprite playerSprite;
     public Image actorImage;
     public Text actorName;
     public Text messageText;
     public RectTransform backgroundBox;
     public RectTransform nextDialogueHint;
 
+    public Slider priceSlider;
+    public Text priceAmount;
+    public Button submitButton;
     public Button yesButton;
     public Button noButton;
 
     private Message[] currentMessages;
     private Actor[] currentActors;
+    private Bargaining bargainingData;
     private int activeMessage = 0;
     public static bool isActive = false;
+    private int attemptsLeft;
 
     private void Start()
     {
-        // Ensure buttons are hidden initially
+        // Ensure buttons and sliders are hidden initially
         yesButton.gameObject.SetActive(false);
         noButton.gameObject.SetActive(false);
+        priceSlider.gameObject.SetActive(false);
+        submitButton.gameObject.SetActive(false);
 
         // Initialize the UI elements to be invisible
         backgroundBox.localScale = Vector3.zero;
         nextDialogueHint.localScale = Vector3.zero;
 
         // Register button click listeners
+        yesButton.onClick.AddListener(YesButtonClicked);
         noButton.onClick.AddListener(NoButtonClicked);
+        submitButton.onClick.AddListener(SubmitButtonClicked);
+
+        // Register the slider value change listener
+        priceSlider.onValueChanged.AddListener(OnSliderValueChanged);
     }
 
-    public void OpenDialogue(Message[] messages, Actor[] actors, Payable payable)
+    public void OpenDialogue(Message[] messages, Actor[] actors, Bargaining bargaining)
     {
         currentMessages = messages;
         currentActors = actors;
+        bargainingData = bargaining;
         activeMessage = 0;
         isActive = true;
+        attemptsLeft = bargainingData.attempts; // Initialize attempts left
 
         Debug.Log("Start conversation! Loaded messages: " + messages.Length);
-
         DisplayMessage();
 
         // Animate the appearance of the dialogue UI
@@ -58,7 +73,15 @@ public class DialogueManager : MonoBehaviour
 
             Actor actorToDisplay = currentActors[messageToDisplay.actorId];
             actorName.text = actorToDisplay.name;
-            actorImage.sprite = actorToDisplay.sprite;
+
+            if (messageToDisplay.actorId == 0)
+            {
+                actorImage.sprite = playerSprite;
+            }
+            else if (messageToDisplay.actorId == 1)
+            {
+                actorImage.sprite = currentNPCSprite;
+            }
 
             AnimateTextColor();
         }
@@ -81,6 +104,54 @@ public class DialogueManager : MonoBehaviour
             yesButton.gameObject.SetActive(true);
             noButton.gameObject.SetActive(true);
         }
+    }
+
+    public void YesButtonClicked()
+    {
+        yesButton.gameObject.SetActive(false);
+        noButton.gameObject.SetActive(false);
+
+        // Show the slider and submit button for bargaining
+        priceSlider.gameObject.SetActive(true);
+        submitButton.gameObject.SetActive(true);
+    }
+
+    public void OnSliderValueChanged(float value)
+    {
+        // Update the price amount text as the slider value changes in real-time
+        priceAmount.text = "Rupees " + Mathf.RoundToInt(value) + "/-";
+    }
+
+    public void SubmitButtonClicked()
+    {
+        float offeredPrice = priceSlider.value;
+        string response = GetResponseForPrice(offeredPrice);
+
+        messageText.text = response;
+
+        attemptsLeft--;
+
+        if (attemptsLeft <= 0)
+        {
+            NoButtonClicked();
+        }
+    }
+
+    private string GetResponseForPrice(float price)
+    {
+        foreach (var response in bargainingData.responses)
+        {
+            string[] range = response.range.Split('-');
+            int min = int.Parse(range[0]);
+            int max = int.Parse(range[1]);
+
+            if (price >= min && price <= max)
+            {
+                return response.response;
+            }
+        }
+
+        return "I don't understand the price.";
     }
 
     public void NoButtonClicked()
@@ -106,9 +177,11 @@ public class DialogueManager : MonoBehaviour
             Debug.LogError("nextDialogueHint is null.");
         }
 
-        // Hide the Yes/No buttons
+        // Hide the Yes/No buttons and other UI elements
         yesButton.gameObject.SetActive(false);
         noButton.gameObject.SetActive(false);
+        priceSlider.gameObject.SetActive(false);
+        submitButton.gameObject.SetActive(false);
 
         isActive = false;
     }
