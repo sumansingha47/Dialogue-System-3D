@@ -131,10 +131,11 @@ public class DialogueManager : MonoBehaviour
 
         attemptsLeft--;
 
-        if (attemptsLeft <= 0)
+        if (attemptsLeft <= 0 || response == "Deal.")
         {
             NoButtonClicked();
         }
+    
     }
 
     private string GetResponseForPrice(float price)
