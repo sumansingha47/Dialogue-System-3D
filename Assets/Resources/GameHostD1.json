@@ -9,20 +9,32 @@
       "message": "Hello, nice to meet you."
     },
     {
-      "actorId": 1,
-      "message": "Game is so good, you will enjoy"
+      "actorId": 0,
+      "message": "I want to buy a game."
     },
     {
-      "actorId": 0,
+      "actorId": 1,
       "message": "Oh, great."
     },
     {
       "actorId": 1,
-      "message": "You need to pay 200rs to get this game."
+      "message": "Which game you want to buy?"
+    },
+    {
+      "actorId": 0,
+      "message": "GTA 5!."
     },
     {
       "actorId": 1,
-      "message": "Do you want to buy?"
+      "message": "You need pay 1,163/- for GTA V!"
+    },
+    {
+      "actorId": 1,
+      "message": "Ok, wait..."
+    },
+    {
+      "actorId": 1,
+      "message": "This is your game."
     }
 
   ],
