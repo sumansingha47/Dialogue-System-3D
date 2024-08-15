@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
-    public Sprite currentNPCSprite;
     public Sprite playerSprite;
     public Image actorImage;
     public Text actorName;
@@ -21,6 +20,7 @@ public class DialogueManager : MonoBehaviour
 
     private Message[] currentMessages;
     private Actor[] currentActors;
+    private Sprite currentNPCSprite;
     private Bargaining bargainingData;
     private int activeMessage = 0;
     public static bool isActive = false;
@@ -47,14 +47,19 @@ public class DialogueManager : MonoBehaviour
         priceSlider.onValueChanged.AddListener(OnSliderValueChanged);
     }
 
-    public void OpenDialogue(Message[] messages, Actor[] actors, Bargaining bargaining)
+    public void OpenDialogue(Message[] messages, Actor[] actors, Sprite npcSprite, Bargaining bargaining)
     {
         currentMessages = messages;
         currentActors = actors;
+        currentNPCSprite = npcSprite;
         bargainingData = bargaining;
         activeMessage = 0;
         isActive = true;
         attemptsLeft = bargainingData.attempts; // Initialize attempts left
+
+        priceAmount.text = "Rupees " + bargaining.min_price.ToString();
+        priceSlider.minValue = bargaining.min_price;
+        priceSlider.maxValue = bargaining.max_price;
 
         Debug.Log("Start conversation! Loaded messages: " + messages.Length);
         DisplayMessage();
@@ -106,16 +111,6 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void YesButtonClicked()
-    {
-        yesButton.gameObject.SetActive(false);
-        noButton.gameObject.SetActive(false);
-
-        // Show the slider and submit button for bargaining
-        priceSlider.gameObject.SetActive(true);
-        submitButton.gameObject.SetActive(true);
-    }
-
     public void OnSliderValueChanged(float value)
     {
         // Update the price amount text as the slider value changes in real-time
@@ -131,9 +126,9 @@ public class DialogueManager : MonoBehaviour
 
         attemptsLeft--;
 
-        if (attemptsLeft <= 0 || response == "Deal.")
+        if (attemptsLeft <= 0 || response == "Okay, Deal.")
         {
-            NoButtonClicked();
+            Invoke("NoButtonClicked", 2);
         }
     
     }
@@ -153,6 +148,17 @@ public class DialogueManager : MonoBehaviour
         }
 
         return "I don't understand the price.";
+    }
+
+    public void YesButtonClicked()
+    {
+        messageText.text = "Select Amount Throungh slider!";
+        yesButton.gameObject.SetActive(false);
+        noButton.gameObject.SetActive(false);
+
+        // Show the slider and submit button for bargaining
+        priceSlider.gameObject.SetActive(true);
+        submitButton.gameObject.SetActive(true);
     }
 
     public void NoButtonClicked()
@@ -185,6 +191,10 @@ public class DialogueManager : MonoBehaviour
         submitButton.gameObject.SetActive(false);
 
         isActive = false;
+        priceAmount.text = "Rupees 0/-";
+        priceSlider.minValue = 0;
+        priceSlider.maxValue = 0;
+
     }
 
     private void AnimateTextColor()

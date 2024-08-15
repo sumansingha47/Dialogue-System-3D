@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class JsonDialogueTrigger : MonoBehaviour
 {
     public TextAsset textJson;
+    public Sprite npcSprite;
+
     public DialogueData dialogueData;
 
     private void Start()
@@ -28,7 +30,7 @@ public class JsonDialogueTrigger : MonoBehaviour
 
     public void StartDialogue()
     {
-        FindObjectOfType<DialogueManager>().OpenDialogue(dialogueData.messages, dialogueData.actors, dialogueData.bargaining);
+        FindObjectOfType<DialogueManager>().OpenDialogue(dialogueData.messages, dialogueData.actors,npcSprite, dialogueData.bargaining);
     }
 }
 
@@ -51,8 +53,7 @@ public class Message
 public class Actor
 {
     public string name;
-    // To load sprites, you'll need a method to load them from resources
-    // public Sprite sprite;
+  //  public Sprite sprite;
 }
 
 [System.Serializable]

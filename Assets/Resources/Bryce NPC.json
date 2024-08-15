@@ -1,0 +1,58 @@
+{
+  "messages": [
+    {
+      "actorId": 0,
+      "message": "Hello!"
+    },
+    {
+      "actorId": 1,
+      "message": "Yes."
+    },
+    {
+      "actorId": 0,
+      "message": "I want to buy some carrots!."
+    },
+    {
+      "actorId": 0,
+      "message": "How much is the price of carrots?."
+    },
+    {
+      "actorId": 1,
+      "message": "80/- Rupees per KG, sir!"
+    },
+    {
+      "actorId": 1,
+      "message": "Do you want to buy?"
+    }
+
+  ],
+  "actors": [
+    {
+      "name": "Player",
+      "actorId": 0
+    },
+    {
+      "name": "Bryce - Sabji Wala",
+      "actorId": 1
+    }
+  ],
+  "bargaining": {
+    "min_price": 40,
+    "max_price": 80,
+    "attempts": 5,
+    "responses": [
+      {
+        "range": "40-55",
+        "response": "That's too low."
+      },
+      {
+        "range": "55-60",
+        "response": "Increase the amount."
+      },
+      {
+        "range": "65-80",
+        "response": "Okay, Deal."
+      }
+    ]
+  }
+}
