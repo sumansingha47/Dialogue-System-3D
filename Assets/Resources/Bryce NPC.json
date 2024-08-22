@@ -10,20 +10,37 @@
     },
     {
       "actorId": 0,
-      "message": "I want to buy some carrots!."
-    },
-    {
-      "actorId": 0,
-      "message": "How much is the price of carrots?."
+      "message": "I want to buy a game."
     },
     {
       "actorId": 1,
-      "message": "80/- Rupees per KG, sir!"
+      "message": "Okay, which game?."
+    },
+    {
+      "actorId": 0,
+      "message": "Mumbai Gullies!"
+    },
+    {
+      "actorId": 1,
+      "message": "Oh, this game, this is a nice game sir."
+    },
+    {
+      "actorId": 1,
+      "message": "Just recently released."
+    },
+    {
+      "actorId": 0,
+      "message": "What is its price?"
+    },
+    {
+      "actorId": 1,
+      "message": "Mmm... just 899/- Rupees, sir."
     },
     {
       "actorId": 1,
       "message": "Do you want to buy?"
     }
+
 
   ],
   "actors": [
@@ -32,25 +49,25 @@
       "actorId": 0
     },
     {
-      "name": "Bryce - Sabji Wala",
+      "name": "Bryce - Steam Shop Keeper",
       "actorId": 1
     }
   ],
   "bargaining": {
-    "min_price": 40,
-    "max_price": 80,
+    "min_price": 500,
+    "max_price": 899,
     "attempts": 5,
     "responses": [
       {
-        "range": "40-55",
+        "range": "500-650",
         "response": "That's too low."
       },
       {
-        "range": "55-60",
-        "response": "Increase the amount."
+        "range": "650-800",
+        "response": "I can't give this game in this price, please increase the amount."
       },
       {
-        "range": "65-80",
+        "range": "800-899",
         "response": "Okay, Deal."
       }
     ]

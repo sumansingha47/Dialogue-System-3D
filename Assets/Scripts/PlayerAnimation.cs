@@ -38,13 +38,10 @@ public class PlayerAnimation : MonoBehaviour
         isRunning = false;
         isJumping = false;
         isWalking = false;
-        isRunningBack = false;
         isWalkingBack = false;
-        myAnim.SetBool("Run", isRunning);
-        myAnim.SetBool("Jump", isJumping);
-        myAnim.SetBool("Walk", isWalking);
-        myAnim.SetBool("RunBack", isRunningBack);
-        myAnim.SetBool("WalkBack", isWalkingBack);
+        isRunningBack = false;
+
+        UpdateAnimationStates();
     }
 
     private void UpdateMovementStates()
@@ -52,11 +49,21 @@ public class PlayerAnimation : MonoBehaviour
         bool isShiftPressed = Input.GetKey(KeyCode.LeftShift);
         bool isWPressed = Input.GetKey(KeyCode.W);
         bool isSPressed = Input.GetKey(KeyCode.S);
+        bool isAPressed = Input.GetKey(KeyCode.A);
+        bool isDPressed = Input.GetKey(KeyCode.D);
 
-        isRunning = isShiftPressed && isWPressed;
-        isWalking = !isShiftPressed && isWPressed;
+        // Running with Shift + W, Shift + A, or Shift + D
+        isRunning = isShiftPressed && (isWPressed || isAPressed || isDPressed);
+
+        // Walking without Shift
+        isWalking = !isShiftPressed && (isWPressed || isAPressed || isDPressed);
+
         isJumping = Input.GetKey(KeyCode.Space);
+
+        // Running back with Shift + S
         isRunningBack = isShiftPressed && isSPressed;
+
+        // Walking back without Shift
         isWalkingBack = !isShiftPressed && isSPressed;
     }
 

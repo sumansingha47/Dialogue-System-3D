@@ -17,10 +17,14 @@ public class JsonDialogueTrigger : MonoBehaviour
             dialogueData = JsonUtility.FromJson<DialogueData>(textJson.text);
             Debug.Log("JSON Loaded: Min Price = " + dialogueData.bargaining.min_price);
 
-            foreach (var response in dialogueData.bargaining.responses)
+            if (dialogueData.bargaining.responses != null)
             {
-                Debug.Log("Response Range: " + response.range + ", Response: " + response.response);
+                foreach (var response in dialogueData.bargaining.responses)
+                {
+                    Debug.Log("Response Range: " + response.range + ", Response: " + response.response);
+                }
             }
+            
         }
         else
         {
@@ -30,7 +34,7 @@ public class JsonDialogueTrigger : MonoBehaviour
 
     public void StartDialogue()
     {
-        FindObjectOfType<DialogueManager>().OpenDialogue(dialogueData.messages, dialogueData.actors,npcSprite, dialogueData.bargaining);
+        FindObjectOfType<DialogueManager>().OpenDialogue(dialogueData.messages, dialogueData.actors, npcSprite, dialogueData.bargaining);
     }
 }
 

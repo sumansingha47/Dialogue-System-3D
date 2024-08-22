@@ -1,0 +1,42 @@
+{
+  "messages": [
+    {
+      "actorId": 0,
+      "message": "Hello, sir!"
+    },
+    {
+      "actorId": 1,
+      "message": "Yes sir, tell."
+    },
+    {
+      "actorId": 0,
+      "message": "I want to buy a game."
+    },
+    {
+      "actorId": 0,
+      "message": "Can you tell me, where is the Steam Shop?"
+    },
+    {
+      "actorId": 1,
+      "message": "Just near you, this building is the Steam Shop."
+    },
+    {
+      "actorId": 0,
+      "message": "Oh, Thanks."
+    },
+    {
+      "actorId": 1,
+      "message": "You welcome."
+    }
+  ],
+  "actors": [
+    {
+      "name": "Player",
+      "actorId": 0
+    },
+    {
+      "name": "NPC",
+      "actorId": 1
+    }
+  ]
+}

@@ -23,6 +23,8 @@ public class MouseLook : MonoBehaviour
     private Vector2 _mouseAbsolute;
     private Vector2 _smoothMouse;
 
+    public Vector3 cameraLookAtOffset;
+
     [HideInInspector]
     public bool scoped;
 
@@ -56,6 +58,7 @@ public class MouseLook : MonoBehaviour
     {
         if (DialogueManager.isActive)
         {
+            transform.LookAt(PlayerInteraction.instance.npcTranform.position + cameraLookAtOffset);
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
@@ -69,7 +72,10 @@ public class MouseLook : MonoBehaviour
 
     void Update()
     {
-        LockCursor(); // Ensure cursor lock state is checked every frame
+        LockCursor();
+
+        if (DialogueManager.isActive)
+            return;
 
         // Allow the script to clamp based on a desired target value.
         var targetOrientation = Quaternion.Euler(targetDirection);
