@@ -1391,6 +1391,10 @@ PrefabInstance:
       propertyPath: m_UseGravity
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4795245189538168892, guid: ca293fe90141c35459f3752671255935, type: 3}
+      propertyPath: m_Constraints
+      value: 94
+      objectReference: {fileID: 0}
     - target: {fileID: 5454277140921510976, guid: ca293fe90141c35459f3752671255935, type: 3}
       propertyPath: m_Convex
       value: 1
@@ -2945,7 +2949,7 @@ GameObject:
   - component: {fileID: 913006644}
   - component: {fileID: 913006643}
   m_Layer: 0
-  m_Name: BackGroundAudio
+  m_Name: BackgroundAudio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2965,7 +2969,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.38
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
