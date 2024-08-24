@@ -52,18 +52,14 @@ public class PlayerAnimation : MonoBehaviour
         bool isAPressed = Input.GetKey(KeyCode.A);
         bool isDPressed = Input.GetKey(KeyCode.D);
 
-        // Running with Shift + W, Shift + A, or Shift + D
         isRunning = isShiftPressed && (isWPressed || isAPressed || isDPressed);
 
-        // Walking without Shift
         isWalking = !isShiftPressed && (isWPressed || isAPressed || isDPressed);
 
         isJumping = Input.GetKey(KeyCode.Space);
 
-        // Running back with Shift + S
         isRunningBack = isShiftPressed && isSPressed;
 
-        // Walking back without Shift
         isWalkingBack = !isShiftPressed && isSPressed;
     }
 

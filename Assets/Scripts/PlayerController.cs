@@ -20,13 +20,11 @@ public class PlayerController : MonoBehaviour
 
     private bool grounded = false;
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (DialogueManager.isActive)

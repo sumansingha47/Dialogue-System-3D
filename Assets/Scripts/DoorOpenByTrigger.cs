@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class DoorOpenByTrigger : MonoBehaviour
 {
-    public Transform door; // The door that will be opened
-    public Vector3 openPositionOffset; // The position offset when the door is open
-    public float doorOpenSpeed = 2f; // Speed at which the door opens
+    public Transform door;
+    public Vector3 openPositionOffset;
+    public float doorOpenSpeed = 2f;
 
-    private Vector3 closedPosition; // The original position of the door
-    private Vector3 openPosition; // The target position when the door is open
+    private Vector3 closedPosition;
+    private Vector3 openPosition;
 
     private void Start()
     {
@@ -21,8 +21,8 @@ public class DoorOpenByTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            StopAllCoroutines(); // Stop any ongoing door movement
-            StartCoroutine(MoveDoor(openPosition)); // Open the door
+            StopAllCoroutines();
+            StartCoroutine(MoveDoor(openPosition));
         }
     }
 
@@ -30,8 +30,8 @@ public class DoorOpenByTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            StopAllCoroutines(); // Stop any ongoing door movement
-            StartCoroutine(MoveDoor(closedPosition)); // Close the door
+            StopAllCoroutines();
+            StartCoroutine(MoveDoor(closedPosition));
         }
     }
 
@@ -43,6 +43,6 @@ public class DoorOpenByTrigger : MonoBehaviour
             yield return null;
         }
 
-        door.localPosition = targetPosition; // Ensure the door is exactly in the target position
+        door.localPosition = targetPosition;
     }
 }

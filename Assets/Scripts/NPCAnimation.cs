@@ -21,7 +21,6 @@ public class NPCAnimation : MonoBehaviour
     {
         npcAnim = GetComponent<Animator>();
 
-        // Log an error if the Animator component is not found
         if (npcAnim == null)
         {
             Debug.LogError("NPCAnimator component not found on " + gameObject.name);
@@ -30,7 +29,6 @@ public class NPCAnimation : MonoBehaviour
 
     private void Update()
     {
-        // Update the Animator only if it exists
         if (npcAnim != null)
         {
             npcAnim.SetBool("Walk", isWalking);

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,22 +33,18 @@ public class DialogueManager : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
 
-        // Ensure buttons and sliders are hidden initially
         yesButton.gameObject.SetActive(false);
         noButton.gameObject.SetActive(false);
         priceSlider.gameObject.SetActive(false);
         submitButton.gameObject.SetActive(false);
 
-        // Initialize the UI elements to be invisible
         backgroundBox.localScale = Vector3.zero;
         nextDialogueHint.localScale = Vector3.zero;
 
-        // Register button click listeners
         yesButton.onClick.AddListener(YesButtonClicked);
         noButton.onClick.AddListener(NoButtonClicked);
         submitButton.onClick.AddListener(SubmitButtonClicked);
 
-        // Register the slider value change listener
         priceSlider.onValueChanged.AddListener(OnSliderValueChanged);
     }
 
@@ -70,14 +65,13 @@ public class DialogueManager : MonoBehaviour
         Debug.Log("Start conversation! Loaded messages: " + messages.Length);
         DisplayMessage();
 
-        // Animate the appearance of the dialogue UI
         nextDialogueHint.LeanScale(Vector3.one, 0.5f).setEaseInOutExpo();
         backgroundBox.LeanScale(Vector3.one, 0.5f).setEaseInOutExpo();
     }
 
     private void DisplayMessage()
     {
-        if (activeMessage < currentMessages.Length)
+        if (currentMessages != null && activeMessage < currentMessages.Length)
         {
             PlayerInteraction.instance.NPCLookAt(true);
             Message messageToDisplay = currentMessages[activeMessage];
@@ -90,14 +84,14 @@ public class DialogueManager : MonoBehaviour
             {
                 actorImage.sprite = playerSprite;
                 audioSource.PlayOneShot(playerAudioClip);
-                
+
                 BryceNPCAnimation.instance.NPCTalking(false);
                 BryceNPCAnimation.instance.NPCTalking2(false);
             }
             else if (messageToDisplay.actorId == 1)
             {
                 actorImage.sprite = currentNPCSprite;
-               
+
                 if (PlayerInteraction.instance._tag == "Bryce NPC")
                 {
                     audioSource.PlayOneShot(npcAudioClip);
@@ -109,7 +103,6 @@ public class DialogueManager : MonoBehaviour
                     audioSource.PlayOneShot(npcAudioClip);
                     NPCAnimation.instance.NPCTalking2(true);
                     StartCoroutine(WaitAndStopNPCTalking2(2f));
-                     
                 }
             }
 
@@ -130,12 +123,12 @@ public class DialogueManager : MonoBehaviour
 
     public void NextMessage()
     {
-        activeMessage++;
-        if (activeMessage < currentMessages.Length)
+        if (activeMessage < currentMessages.Length - 1)
         {
+            activeMessage++;
             DisplayMessage();
         }
-        else if (activeMessage > 0 && currentMessages[activeMessage - 1].message == "Do you want to buy?")
+        else if (activeMessage >= currentMessages.Length - 1 && currentMessages[activeMessage].message == "Do you want to buy?")
         {
             audioSource.PlayOneShot(npcAudioClip);
             yesButton.gameObject.SetActive(true);
@@ -152,7 +145,6 @@ public class DialogueManager : MonoBehaviour
 
     public void OnSliderValueChanged(float value)
     {
-        // Update the price amount text as the slider value changes in real-time
         priceAmount.text = "Rupees " + Mathf.RoundToInt(value) + "/-";
     }
 
@@ -205,7 +197,6 @@ public class DialogueManager : MonoBehaviour
         yesButton.gameObject.SetActive(false);
         noButton.gameObject.SetActive(false);
 
-        // Show the slider and submit button for bargaining
         priceSlider.gameObject.SetActive(true);
         submitButton.gameObject.SetActive(true);
     }
@@ -214,7 +205,6 @@ public class DialogueManager : MonoBehaviour
     {
         Debug.Log("Conversation ended!");
 
-        // Ensure the UI elements are not null before scaling
         if (backgroundBox != null)
         {
             backgroundBox.LeanScale(Vector3.zero, 0.5f).setEaseInOutExpo();
@@ -233,7 +223,6 @@ public class DialogueManager : MonoBehaviour
             Debug.LogError("nextDialogueHint is null.");
         }
 
-        // Hide the Yes/No buttons and other UI elements
         yesButton.gameObject.SetActive(false);
         noButton.gameObject.SetActive(false);
         priceSlider.gameObject.SetActive(false);
@@ -247,14 +236,12 @@ public class DialogueManager : MonoBehaviour
 
     private void AnimateTextColor()
     {
-        // Animate the text fading in
         LeanTween.textAlpha(messageText.rectTransform, 0, 0);
         LeanTween.textAlpha(messageText.rectTransform, 1, 0.5f);
     }
 
     private void Update()
     {
-        // Handle advancing the conversation with the F key
         if (Input.GetKeyDown(KeyCode.F) && isActive)
         {
             NextMessage();
